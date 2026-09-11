@@ -13,6 +13,7 @@ Inspired by [Crosshair Pro](https://github.com/antoniobrandao/crosshair-chrome-e
 - **Per-site toggle** — hide the crosshair on specific sites (e.g. don't want it on GitHub)
 - **Keyboard shortcut** — `Alt+Shift+X` toggles the overlay instantly
 - **Ifriend-ly** — renders in every frame, so games embedded in iframes still get a crosshair
+- **Fullscreen-proof** — stays visible and dead-center in both browser fullscreen (F11) and Fullscreen-API fullscreen (e.g. Xbox Cloud Gaming's fullscreen button) by reparenting into the fullscreen element
 - **Zero dependencies, no build step** — clone and load
 
 ## Install (unpacked)
