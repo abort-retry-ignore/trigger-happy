@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trigger Happy</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg width="18" height="18" viewBox="-10 -10 20 20" aria-hidden="true">
+        <line x1="0" y1="-7" x2="0" y2="7" stroke="#00e676" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="-7" y1="0" x2="7" y2="0" stroke="#00e676" stroke-width="2.4" stroke-linecap="round"/>
+        <circle r="1.6" fill="#00e676"/>
+      </svg>
+      <span>Trigger Happy</span>
+    </div>
+    <label class="switch" title="Toggle crosshair everywhere">
+      <input type="checkbox" id="enabled" />
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <section class="preview-wrap">
+    <div id="preview" class="preview"></div>
+  </section>
+
+  <section>
+    <h3>Style</h3>
+    <div id="styles" class="styles"></div>
+  </section>
+
+  <section>
+    <h3>Color</h3>
+    <div id="swatches" class="swatches"></div>
+    <label class="custom-color">
+      Custom <input type="color" id="color" />
+    </label>
+  </section>
+
+  <section>
+    <h3>Tuning</h3>
+    <label class="row">Size <input type="range" id="size" min="4" max="60" step="1" /><span id="sizeVal"></span></label>
+    <label class="row">Thickness <input type="range" id="thickness" min="1" max="10" step="1" /><span id="thicknessVal"></span></label>
+    <label class="row">Gap <input type="range" id="gap" min="0" max="30" step="1" /><span id="gapVal"></span></label>
+    <label class="row">Opacity <input type="range" id="opacity" min="0.2" max="1" step="0.05" /><span id="opacityVal"></span></label>
+    <label class="row check"><input type="checkbox" id="outline" /> Black outline <small>(contrast on any background)</small></label>
+  </section>
+
+  <section>
+    <h3>This site</h3>
+    <label class="row check"><input type="checkbox" id="siteHidden" /> Hide crosshair on <code id="siteHost">this page</code></label>
+  </section>
+
+  <footer>
+    <button id="reset" class="ghost">Reset to defaults</button>
+    <span class="hint">Shortcut: <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd></span>
+  </footer>
+
+  <script src="../shared/render.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
