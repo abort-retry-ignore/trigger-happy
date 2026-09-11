@@ -21,6 +21,11 @@
     </label>
   </header>
 
+  <div id="hotkeyWarn" class="warn hidden">
+    <span>Hotkey not set</span>
+    <button id="openShortcuts">Set it up</button>
+  </div>
+
   <section class="preview-wrap">
     <div id="preview" class="preview"></div>
   </section>
@@ -54,7 +59,7 @@
 
   <footer>
     <button id="reset" class="ghost">Reset to defaults</button>
-    <span class="hint">Shortcut: <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd></span>
+    <span class="hint" id="hotkeyHint">Shortcut:</span>
   </footer>
 
   <script src="../shared/render.js"></script>

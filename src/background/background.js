@@ -17,10 +17,16 @@ const DEFAULTS = {
 };
 
 function updateBadge() {
-  chrome.storage.sync.get({ settings: DEFAULTS }, ({ settings }) => {
-    const on = !!settings.enabled;
-    chrome.action.setBadgeText({ text: on ? 'ON' : '' });
-    chrome.action.setBadgeBackgroundColor({ color: on ? '#1b5e20' : '#616161' });
+  // '!' (orange) when the toggle hotkey is unbound — modern Chrome doesn't
+  // auto-assign suggested_key bindings, so this needs a manual visit to
+  // chrome://extensions/shortcuts. Otherwise: ON / blank by enabled state.
+  chrome.commands.getAll((cmds) => {
+    const unbound = !(cmds || []).some((c) => c.name === 'toggle-crosshair' && c.shortcut);
+    chrome.storage.sync.get({ settings: DEFAULTS }, ({ settings }) => {
+      const on = !!settings.enabled;
+      chrome.action.setBadgeText({ text: unbound ? '!' : on ? 'ON' : '' });
+      chrome.action.setBadgeBackgroundColor({ color: unbound ? '#ef6c00' : on ? '#1b5e20' : '#616161' });
+    });
   });
 }
 

@@ -134,6 +134,26 @@
       save();
       apply();
     });
+
+    $('openShortcuts').addEventListener('click', () => {
+      chrome.tabs.create({ url: 'chrome://extensions/shortcuts' });
+    });
+  }
+
+  /* Chrome (138+) no longer assigns suggested_key hotkeys on install, and
+   * reloads/conflicts can drop existing bindings — surface the real state. */
+  async function checkHotkey() {
+    try {
+      const cmds = await chrome.commands.getAll();
+      const cmd = (cmds || []).find((c) => c.name === 'toggle-crosshair');
+      const keys = cmd && cmd.shortcut ? cmd.shortcut.split('+') : null;
+      $('hotkeyWarn').classList.toggle('hidden', !!keys);
+      $('hotkeyHint').innerHTML = keys
+        ? 'Shortcut: ' + keys.map((k) => `<kbd>${k}</kbd>`).join('+')
+        : 'Shortcut: <em>not set — see banner above</em>';
+    } catch {
+      // commands API unavailable — leave the footer alone
+    }
   }
 
   /* ---------- init ---------- */
@@ -146,6 +166,7 @@
     buildSwatches();
     bind();
     apply();
+    checkHotkey();
 
     // Ask the content script of the active tab which site we're on.
     try {

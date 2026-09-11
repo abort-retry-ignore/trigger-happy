@@ -27,6 +27,31 @@ header {
   border-bottom: 1px solid var(--line);
 }
 
+/* ---- unbound hotkey warning ---- */
+.warn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #3a2b12;
+  color: #ffca7a;
+  border-bottom: 1px solid #5a431c;
+  padding: 8px 14px;
+  font-size: 12px;
+}
+.warn.hidden { display: none; }
+.warn button {
+  background: #ef6c00;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 9px;
+  cursor: pointer;
+  font-size: 11.5px;
+  flex: none;
+}
+.warn button:hover { background: #f57c00; }
+
 .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; letter-spacing: 0.2px; }
 
 /* ---- toggle switch ---- */

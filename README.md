@@ -11,7 +11,7 @@ Inspired by [Crosshair Pro](https://github.com/antoniobrandao/crosshair-chrome-e
 - **Black outline** for contrast on any background (bright sky, white walls, …)
 - **Live preview** in the popup — see exactly what you'll get before you play
 - **Per-site toggle** — hide the crosshair on specific sites (e.g. don't want it on GitHub)
-- **Keyboard shortcut** — `Alt+Shift+X` toggles the overlay instantly
+- **Keyboard shortcut** — `Alt+Shift+X` toggles the overlay instantly (set it once in `chrome://extensions/shortcuts`)
 - **Ifriend-ly** — renders in every frame, so games embedded in iframes still get a crosshair
 - **Fullscreen-proof** — stays visible and dead-center in both browser fullscreen (F11) and Fullscreen-API fullscreen (e.g. Xbox Cloud Gaming's fullscreen button) by reparenting into the fullscreen element
 - **Zero dependencies, no build step** — clone and load
@@ -24,9 +24,19 @@ Inspired by [Crosshair Pro](https://github.com/antoniobrandao/crosshair-chrome-e
 4. Click **Load unpacked** and select the `trigger-happy/` folder
 5. Pin 🎯 Trigger Happy to your toolbar
 
+## Keyboard shortcut
+
+The toggle hotkey (`Alt+Shift+X` by default) is **not assigned automatically** on modern Chrome (138+ stopped applying `suggested_key` on install) — and reloading an unpacked extension can drop an existing binding. To set it:
+
+1. Open `chrome://extensions/shortcuts`
+2. Find **Trigger Happy → Toggle the crosshair overlay**
+3. Click the input box and press `Alt+Shift+X` (or any combo you prefer)
+
+The popup shows your current binding and shows a warning banner (plus an orange `!` badge) when none is set. On Linux, avoid combos your desktop environment uses — `Alt+Shift` is sometimes bound to keyboard-layout switching, which eats the keypress before Chrome sees it.
+
 ## Usage
 
-1. Click the icon (or press `Alt+Shift+X`) to toggle the crosshair
+1. Set the hotkey (above), then press it with a web page focused to toggle the crosshair
 2. Open the popup to pick a style, color, and tuning — changes apply live
 3. Use **This site → Hide crosshair on …** to exclude individual sites
 
