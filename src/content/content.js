@@ -62,9 +62,11 @@
       const siteHidden = !!(settings.hiddenSites && settings.hiddenSites[hostname]);
       const visible = !!settings.enabled && !siteHidden;
       host.style.display = visible ? 'block' : 'none';
-      if (visible) root.innerHTML = renderCrosshairSVG(settings);
-    } catch {
+      if (visible) root.innerHTML = TH.renderCrosshairSVG(settings);
+    } catch (e) {
       // Extension context invalidated (e.g. after update/reload) — nothing to do.
+      // Surface anything else so failures are debuggable.
+      console.warn('[Trigger Happy] refresh failed:', e);
     }
   }
 
