@@ -60,7 +60,9 @@
       const { settings } = await chrome.storage.sync.get({ settings: TH.DEFAULTS });
       const hostname = location.hostname || '';
       const siteHidden = !!(settings.hiddenSites && settings.hiddenSites[hostname]);
-      const visible = !!settings.enabled && !siteHidden;
+      const visible = !!settings.enabled && settings.visible !== false && !siteHidden;
+      const opposite = settings.colorMode === 'opposite';
+      host.style.mixBlendMode = opposite ? 'difference' : 'normal';
       host.style.display = visible ? 'block' : 'none';
       if (visible) root.innerHTML = TH.renderCrosshairSVG(settings);
     } catch (e) {

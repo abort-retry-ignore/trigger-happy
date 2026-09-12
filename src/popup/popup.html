@@ -15,7 +15,7 @@
       </svg>
       <span>Trigger Happy</span>
     </div>
-    <label class="switch" title="Toggle crosshair everywhere">
+    <label class="switch" title="Enable or disable the extension">
       <input type="checkbox" id="enabled" />
       <span class="slider"></span>
     </label>
@@ -24,6 +24,11 @@
   <div id="hotkeyWarn" class="warn hidden">
     <span>Hotkey not set</span>
     <button id="openShortcuts">Set it up</button>
+  </div>
+
+  <div id="hiddenWarn" class="warn warn-info hidden">
+    <span id="hiddenWarnText">Crosshair hidden by hotkey</span>
+    <button id="showCrosshair">Show</button>
   </div>
 
   <section class="preview-wrap">
@@ -37,10 +42,13 @@
 
   <section>
     <h3>Color</h3>
-    <div id="swatches" class="swatches"></div>
-    <label class="custom-color">
-      Custom <input type="color" id="color" />
-    </label>
+    <div id="colorControls">
+      <div id="swatches" class="swatches"></div>
+      <label class="custom-color">
+        Custom <input type="color" id="color" />
+      </label>
+    </div>
+    <label class="row check"><input type="checkbox" id="opposite" /> Opposite color <small>(auto-contrast on any background)</small></label>
   </section>
 
   <section>

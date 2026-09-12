@@ -52,6 +52,17 @@ header {
 }
 .warn button:hover { background: #f57c00; }
 
+/* ---- crosshair hidden by hotkey ---- */
+.warn-info {
+  background: #1c2733;
+  color: #9fc3e8;
+  border-bottom: 1px solid #2c3e52;
+}
+.warn-info button {
+  background: #2f5d8a;
+}
+.warn-info button:hover { background: #3a6ea3; }
+
 .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; letter-spacing: 0.2px; }
 
 /* ---- toggle switch ---- */
@@ -80,6 +91,15 @@ header {
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
+
+/* opposite color mode: white/black checkerboard shows the auto-inversion */
+.preview.opposite {
+  background:
+    linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%) 0 0 / 16px 16px,
+    linear-gradient(45deg, #fff 25%, #000 25%, #000 75%, #fff 75%) 8px 8px / 16px 16px;
+}
+
+.dimmed { opacity: 0.4; pointer-events: none; }
 
 section { padding: 10px 14px 2px; }
 h3 {

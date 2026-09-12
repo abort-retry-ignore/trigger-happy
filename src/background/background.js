@@ -1,7 +1,7 @@
 /*
  * Trigger Happy — service worker.
  * Seeds default settings, updates the action badge, and handles the
- * toggle-crosshair keyboard command.
+ * toggle-crosshair keyboard command (toggles the overlay, never the extension).
  */
 
 const DEFAULTS = {
@@ -19,11 +19,11 @@ const DEFAULTS = {
 function updateBadge() {
   // '!' (orange) when the toggle hotkey is unbound — modern Chrome doesn't
   // auto-assign suggested_key bindings, so this needs a manual visit to
-  // chrome://extensions/shortcuts. Otherwise: ON / blank by enabled state.
+  // chrome://extensions/shortcuts. Otherwise: ON / blank by crosshair visibility.
   chrome.commands.getAll((cmds) => {
     const unbound = !(cmds || []).some((c) => c.name === 'toggle-crosshair' && c.shortcut);
     chrome.storage.sync.get({ settings: DEFAULTS }, ({ settings }) => {
-      const on = !!settings.enabled;
+      const on = !!settings.enabled && settings.visible !== false;
       chrome.action.setBadgeText({ text: unbound ? '!' : on ? 'ON' : '' });
       chrome.action.setBadgeBackgroundColor({ color: unbound ? '#ef6c00' : on ? '#1b5e20' : '#616161' });
     });
@@ -41,7 +41,8 @@ chrome.runtime.onInstalled.addListener(async () => {
 chrome.commands.onCommand.addListener(async (command) => {
   if (command !== 'toggle-crosshair') return;
   const { settings } = await chrome.storage.sync.get({ settings: DEFAULTS });
-  await chrome.storage.sync.set({ settings: { ...settings, enabled: !settings.enabled } });
+  const visible = settings.visible !== false; // default true
+  await chrome.storage.sync.set({ settings: { ...settings, visible: !visible } });
 });
 
 chrome.storage.onChanged.addListener((_changes, area) => {

@@ -5,7 +5,9 @@
  */
 (() => {
   const DEFAULTS = {
-    enabled: true,
+    enabled: true, // extension master switch (popup only)
+    visible: true, // crosshair overlay visibility (hotkey)
+    colorMode: 'fixed', // 'fixed' | 'opposite' — opposite auto-inverts against the background
     style: 'crossGap', // cross | crossGap | tshape | xcross | dot | circle | dotCircle
     color: '#00e676',
     size: 24, // distance from center to arm tip (px)
@@ -36,7 +38,9 @@
    */
   function renderCrosshairSVG(s) {
     s = { ...DEFAULTS, ...s };
-    const color = escColor(s.color);
+    const opposite = s.colorMode === 'opposite';
+    const color = opposite ? '#ffffff' : escColor(s.color);
+    const outline = opposite ? false : !!s.outline;
     const t = Math.max(1, Math.round(s.thickness));
     const size = Math.max(4, s.size);
     const gap = Math.min(Math.max(0, s.gap), Math.max(0, size - 2));
@@ -55,18 +59,18 @@
     if (st === 'dot') {
       const r = Math.max(2, size * 0.28);
       E = r;
-      if (s.outline) circle(parts.out, r + 1, o, true);
+      if (outline) circle(parts.out, r + 1, o, true);
       circle(parts.main, r, c, true);
     } else if (st === 'circle') {
       const r = Math.max(3, size * 0.55);
       E = r + t;
-      if (s.outline) circle(parts.out, r + 1, o, false, t + 2);
+      if (outline) circle(parts.out, r + 1, o, false, t + 2);
       circle(parts.main, r, c, false, t);
     } else if (st === 'dotCircle') {
       const r = Math.max(3, size * 0.55);
       const dr = Math.max(1.5, size * 0.12);
       E = r + t;
-      if (s.outline) {
+      if (outline) {
         circle(parts.out, r + 1, o, false, t + 2);
         circle(parts.out, dr + 1, o, true);
       }
@@ -78,7 +82,7 @@
         const g2 = gap * k;
         const h2 = size * k;
         for (const [sx, sy] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) {
-          if (s.outline) line(parts.out, g2 * sx, g2 * sy, h2 * sx, h2 * sy, t + 2, o);
+          if (outline) line(parts.out, g2 * sx, g2 * sy, h2 * sx, h2 * sy, t + 2, o);
           line(parts.main, g2 * sx, g2 * sy, h2 * sx, h2 * sy, t, c);
         }
         E = size * k + t;
@@ -90,7 +94,7 @@
           if (arm === 'b') { y2 = size; y1 = gap; }
           if (arm === 'l') { x2 = -size; x1 = -gap; }
           if (arm === 'r') { x2 = size; x1 = gap; }
-          if (s.outline) line(parts.out, x1, y1, x2, y2, t + 2, o);
+          if (outline) line(parts.out, x1, y1, x2, y2, t + 2, o);
           line(parts.main, x1, y1, x2, y2, t, c);
         }
         E = size + t / 2;
@@ -99,7 +103,7 @@
 
     const C = Math.ceil(E + 2); // margin so outlines/caps never clip
     const W = C * 2;
-    const svgParts = s.outline ? parts.out.join('') + parts.main.join('') : parts.main.join('');
+    const svgParts = outline ? parts.out.join('') + parts.main.join('') : parts.main.join('');
     return `<svg width="${W}" height="${W}" viewBox="${-C} ${-C} ${W} ${W}" xmlns="http://www.w3.org/2000/svg" style="display:block;opacity:${s.opacity}">${svgParts}</svg>`;
   }
 

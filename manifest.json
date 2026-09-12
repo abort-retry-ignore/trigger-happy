@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Trigger Happy — Gaming Crosshair",
   "short_name": "Trigger Happy",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "Pin a customizable crosshair to the exact center of your screen. Built for browser FPS games like Krunker, Shell Shockers and Voxiom.",
   "permissions": ["storage"],
   "background": {
@@ -30,7 +30,7 @@
   "commands": {
     "toggle-crosshair": {
       "suggested_key": {
-        "default": "Alt+Shift+X"
+        "default": "Alt+Shift+S"
       },
       "description": "Toggle the crosshair overlay"
     }

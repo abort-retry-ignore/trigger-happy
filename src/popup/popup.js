@@ -17,6 +17,9 @@
     // master switch
     $('enabled').checked = !!settings.enabled;
 
+    // crosshair hidden by hotkey while the extension is on
+    $('hiddenWarn').classList.toggle('hidden', !(settings.enabled && !settings.visible));
+
     // preview
     $('preview').innerHTML = renderPreview(settings);
 
@@ -30,6 +33,14 @@
     for (const sw of $('swatches').children) {
       sw.classList.toggle('active', sw.dataset.color === normalizeHex(settings.color));
     }
+
+    // opposite color mode — auto-contrast via difference blending
+    const opposite = settings.colorMode === 'opposite';
+    $('opposite').checked = opposite;
+    $('colorControls').classList.toggle('dimmed', opposite);
+    $('outline').disabled = opposite;
+    $('outline').closest('.row').style.opacity = opposite ? '0.4' : '1';
+    $('preview').classList.toggle('opposite', opposite);
 
     // sliders
     setSlider('size', settings.size);
@@ -59,8 +70,10 @@
 
   function renderPreview(s) {
     const svg = TH.renderCrosshairSVG({ ...s, opacity: 1 });
-    // scale real crosshair into the preview box
-    return `<div style="transform:scale(0.9)">${svg}</div>`;
+    // scale real crosshair into the preview box; in opposite mode the wrapper
+    // blends against the preview background just like the host does on pages
+    const blend = s.colorMode === 'opposite' ? 'mix-blend-mode:difference;' : '';
+    return `<div style="transform:scale(0.9);${blend}">${svg}</div>`;
   }
 
   function setSlider(id, value) {
@@ -119,6 +132,7 @@
     $('gap').addEventListener('input', (e) => { settings.gap = +e.target.value; save(); apply(); });
     $('opacity').addEventListener('input', (e) => { settings.opacity = +e.target.value; save(); apply(); });
     $('outline').addEventListener('change', (e) => { settings.outline = e.target.checked; save(); apply(); });
+    $('opposite').addEventListener('change', (e) => { settings.colorMode = e.target.checked ? 'opposite' : 'fixed'; save(); apply(); });
 
     $('siteHidden').addEventListener('change', (e) => {
       if (!siteHost) return;
@@ -138,6 +152,12 @@
     $('openShortcuts').addEventListener('click', () => {
       chrome.tabs.create({ url: 'chrome://extensions/shortcuts' });
     });
+
+    $('showCrosshair').addEventListener('click', () => {
+      settings.visible = true;
+      save();
+      apply();
+    });
   }
 
   /* Chrome (138+) no longer assigns suggested_key hotkeys on install, and
@@ -151,6 +171,9 @@
       $('hotkeyHint').innerHTML = keys
         ? 'Shortcut: ' + keys.map((k) => `<kbd>${k}</kbd>`).join('+')
         : 'Shortcut: <em>not set — see banner above</em>';
+      $('hiddenWarnText').textContent = keys
+        ? `Crosshair hidden — press ${keys.join('+')} to show it`
+        : 'Crosshair hidden by hotkey';
     } catch {
       // commands API unavailable — leave the footer alone
     }
